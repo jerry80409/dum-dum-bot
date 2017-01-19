@@ -1,0 +1,23 @@
+{
+  "name": "dum-dum-bot",
+  "description": "I'm dum dum give me gum gum :)",
+  "keywords": [
+    "java",
+    "spring",
+    "line-sdk",
+    "line-bot"
+  ],
+  "repository": "https://github.com/jerry80409/dum-dum-bot",
+  "env": {
+    "LINE_BOT_CHANNEL_SECRET": {
+      "description": "Line Account channel secret",
+      "value": "you-channel-secret",
+      "required": true
+    },
+    "LINE_BOT_CHANNEL_TOKEN": {
+      "description": "Line Account channel token",
+      "value": "you-channel-secret",
+      "required": true
+    }
+  }
+}
