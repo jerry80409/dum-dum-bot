@@ -1,4 +1,4 @@
-package tw.com.urad.service;
+package tw.com.urad.service.simsimi;
 
 import org.junit.Assert;
 import org.junit.Test;
