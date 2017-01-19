@@ -1,0 +1,30 @@
+server:
+    port: 8080
+
+spring:
+    application:
+        name: dum-dum-bot
+
+line:
+    bot:
+        # 填入自己申請的 Bot Channel 相關欄位
+        channelToken: token
+        channelSecret: secret
+
+        # line API 端點, 預設為 https://api.line.me/
+        apiEndPoint: https://api.line.me/
+        connect-timeout: 10000
+        read-timeout: 10000
+        write-timeout: 10000
+
+        # 使用 lined SDK 預設的 RestController Handler
+        handler:
+            enabled: true
+            path: /callback
+
+
+
+
+
+
+
