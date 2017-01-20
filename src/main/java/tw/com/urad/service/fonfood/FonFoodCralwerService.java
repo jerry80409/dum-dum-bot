@@ -7,7 +7,9 @@ import com.linecorp.bot.model.message.template.CarouselTemplate;
 import org.apache.commons.logging.impl.SimpleLog;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,17 +35,30 @@ public class FonFoodCralwerService {
                 .filter(element -> !element
                         .select(".imgArea > img").attr("src")                           // filter no image
                         .contains("no_image.jpg"))
-                .map(element -> new CarouselColumn(
-                        element.select(".bodyBlock > .imgArea > a > img").attr("src"),  // img URL
-                        element.select(".titleBlock > div > h2 > a").text(),            // Title
-                        element.select(".bodyBlock > .infoArea > p").get(0).text(),     // description
-                        Arrays.asList(new URIAction(                                    // action button
-                                element.select(".infoArea > p > a").text(),
-                                element.select(".infoArea > p > a").attr("href")
-                        ))
-                )).limit(3)
+                .map(element -> {
+                    try {
+                        return new CarouselColumn(
+                                fixHttpsURI(element.select(".bodyBlock > .imgArea > a > img").attr("src")),  // img URL
+                                element.select(".titleBlock > div > h2 > a").text(),            // Title
+                                element.select(".bodyBlock > .infoArea > p").get(0).text(),     // description
+                                Arrays.asList(new URIAction(                                    // action button
+                                        element.select(".infoArea > p > a").text(),
+                                        element.select(".infoArea > p > a").attr("href")
+                                ))
+                        );
+                    } catch (URISyntaxException e) {
+                        e.printStackTrace();
+                        return null;
+                    }
+                }).limit(3)
                 .collect(Collectors.toList());
 
         return new CarouselTemplate(carouselColumns);
+    }
+
+    public String fixHttpsURI(String uri) throws URISyntaxException {
+        return UriComponentsBuilder.fromHttpUrl(uri)
+                .scheme("https")
+                .build().toString();
     }
 }
