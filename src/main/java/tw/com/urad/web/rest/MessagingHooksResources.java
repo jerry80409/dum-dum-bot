@@ -116,7 +116,7 @@ public class MessagingHooksResources {
             if (TAIPEI_METROS.containsKey(text)) {
                 CarouselTemplate carouselTemplate
                         = fonFoodCralwerService.crawlerRestaurantByMetroName(TAIPEI_METROS.get(text));
-                TemplateMessage templateMessage = new TemplateMessage("", carouselTemplate);
+                TemplateMessage templateMessage = new TemplateMessage(TAIPEI_METROS.get(text), carouselTemplate);
                 lineService.reply(replyToken, templateMessage);
             }
 
