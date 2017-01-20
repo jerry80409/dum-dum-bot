@@ -6,18 +6,18 @@ import com.linecorp.bot.model.event.message.LocationMessageContent;
 import com.linecorp.bot.model.event.message.StickerMessageContent;
 import com.linecorp.bot.model.event.message.TextMessageContent;
 import com.linecorp.bot.model.message.StickerMessage;
-import com.linecorp.bot.model.message.TextMessage;
+import com.linecorp.bot.model.message.TemplateMessage;
+import com.linecorp.bot.model.message.template.CarouselTemplate;
 import com.linecorp.bot.model.profile.UserProfileResponse;
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
 import lombok.extern.slf4j.Slf4j;
-import retrofit2.Response;
-import tw.com.urad.Entities.simsimi.SimSimiResponse;
 import tw.com.urad.service.LineService;
+import tw.com.urad.service.fonfood.FonFoodCralwerService;
 import tw.com.urad.service.simsimi.SimSimiService;
 
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Objects;
 import javax.inject.Inject;
 
@@ -28,10 +28,20 @@ import javax.inject.Inject;
 @Slf4j
 @LineMessageHandler
 public class MessagingHooksResources {
+    private final static HashMap<String, String> TAIPEI_METROS = new HashMap<>();
+
+    static {
+        TAIPEI_METROS.put("松山", "捷運松山站");
+        TAIPEI_METROS.put("南京三民", "捷運南京三民站");
+        TAIPEI_METROS.put("小巨蛋", "捷運台北小巨蛋站");
+    }
+
     @Inject
     private LineService lineService;
     @Inject
     private SimSimiService simSimiService;
+    @Inject
+    private FonFoodCralwerService fonFoodCralwerService;
 
     /**
      * 接收文字事件
@@ -102,10 +112,18 @@ public class MessagingHooksResources {
             UserProfileResponse userProfile = lineService.getUserProfileResponse(userId);
             log.info("UserProfile: {}", userProfile);
 
-            // Sim-Simi Reply
-            Response<SimSimiResponse> simSimiResponse = simSimiService.chat("Hi~").execute();
-            lineService.reply(replyToken, Arrays.asList(
-                    new TextMessage(simSimiResponse.body().getResponse())));
+            // 美食地圖
+            if (TAIPEI_METROS.containsKey(text)) {
+                CarouselTemplate carouselTemplate
+                        = fonFoodCralwerService.crawlerRestaurantByMetroName(TAIPEI_METROS.get(text));
+                TemplateMessage templateMessage = new TemplateMessage("", carouselTemplate);
+                lineService.reply(replyToken, templateMessage);
+            }
+
+            // Sim-Simi Reply, 免費 token 失效
+//            Response<SimSimiResponse> simSimiResponse = simSimiService.chat("Hi~").execute();
+//            lineService.reply(replyToken, Arrays.asList(
+//                    new TextMessage(simSimiResponse.body().getResponse())));
         }
     }
 }
