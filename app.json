@@ -16,7 +16,7 @@
     },
     "LINE_BOT_CHANNEL_TOKEN": {
       "description": "Line Account channel token",
-      "value": "you-channel-secret",
+      "value": "you-channel-token",
       "required": true
     }
   }
