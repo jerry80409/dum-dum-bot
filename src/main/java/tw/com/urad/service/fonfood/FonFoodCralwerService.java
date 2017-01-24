@@ -56,6 +56,13 @@ public class FonFoodCralwerService {
         return new CarouselTemplate(carouselColumns);
     }
 
+    /**
+     * 強制轉 https
+     *
+     * @param uri
+     * @return
+     * @throws URISyntaxException
+     */
     public String fixHttpsURI(String uri) throws URISyntaxException {
         return UriComponentsBuilder.fromHttpUrl(uri)
                 .scheme("https")
