@@ -49,8 +49,8 @@ public class WearService {
                     try {
                         return new CarouselColumn(
                                 fixHttpsURI(recommend.select(".image_container > .img > a > img").attr("data-original")),
-                                recommend.select(".profile > .content > .main > p").text(),
-                                recommend.select(".profile > .content > .txt > p").text(),
+                                recommend.select(".profile > .content > .main > .name").text(),
+                                recommend.select(".profile > .content > .main > .txt").text(),
                                 Arrays.asList(new URIAction(
                                         recommend.select(".image_container > .item > .container > .cnt > .cnt_container > .brand").text(),
                                         WEAR_URI + recommend.select(".image_container > .img > a").attr("href")
@@ -62,7 +62,7 @@ public class WearService {
                     }
                 }).limit(3)
                 .collect(Collectors.toList());
-
+        
         return new CarouselTemplate(carouselColumns);
     }
 
