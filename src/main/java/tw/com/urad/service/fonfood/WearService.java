@@ -27,7 +27,7 @@ public class WearService {
     private static final String DEFAULT_USER_AGENT
             = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.95 Safari/537.36";
     private static final Date COOKIE_EXPRESS = new DateTime().plusDays(1).toDate();
-    private final String WEAR_URI = "http://wear.jp/";
+    private final String WEAR_URI = "http://wear.jp";
 
     /**
      * Crawler wear Recommend
@@ -39,9 +39,8 @@ public class WearService {
     public CarouselTemplate crawlerWearRecommend(String switchUri) {
         CrawlerPack.setLoggerLevel(SimpleLog.LOG_LEVEL_WARN);
         Elements wearRecommends = CrawlerPack.start()
-                .addCookie(".wear.jp", "AF%5FObjectID", "", "/", COOKIE_EXPRESS, true)
                 .setUserAgent(DEFAULT_USER_AGENT)
-                .getFromHtml(WEAR_URI + switchUri)
+                .getFromHtml(WEAR_URI + "/" + switchUri)
                 .select("#recommend > ul > li");
 
         List<CarouselColumn> carouselColumns = wearRecommends.stream()
@@ -77,9 +76,8 @@ public class WearService {
         CrawlerPack.setLoggerLevel(SimpleLog.LOG_LEVEL_WARN);
 
         Document document = CrawlerPack.start()
-                .addCookie(".wear.jp", "AF%5FObjectID", "", "/", COOKIE_EXPRESS, true)
                 .setUserAgent(DEFAULT_USER_AGENT)
-                .getFromHtml(WEAR_URI);
+                .getFromHtml(WEAR_URI + "/");
 
         Elements wearTypes = document.select("#switch_sex_type > nav > ul > li");
         Elements images = document.select("#content .img > a > img");
