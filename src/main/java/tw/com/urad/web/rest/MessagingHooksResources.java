@@ -7,6 +7,7 @@ import com.linecorp.bot.model.event.message.StickerMessageContent;
 import com.linecorp.bot.model.event.message.TextMessageContent;
 import com.linecorp.bot.model.message.StickerMessage;
 import com.linecorp.bot.model.message.TemplateMessage;
+import com.linecorp.bot.model.message.template.ButtonsTemplate;
 import com.linecorp.bot.model.message.template.CarouselTemplate;
 import com.linecorp.bot.model.profile.UserProfileResponse;
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
@@ -14,9 +15,10 @@ import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
 import lombok.extern.slf4j.Slf4j;
 import tw.com.urad.service.LineService;
 import tw.com.urad.service.fonfood.FonFoodCralwerService;
-import tw.com.urad.service.simsimi.SimSimiService;
+import tw.com.urad.service.fonfood.WearService;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Objects;
 import javax.inject.Inject;
@@ -29,19 +31,26 @@ import javax.inject.Inject;
 @LineMessageHandler
 public class MessagingHooksResources {
     private final static HashMap<String, String> TAIPEI_METROS = new HashMap<>();
+    private final static HashMap<String, String> COMMONS = new HashMap<>();
 
     static {
+        // 地鐵資料庫
         TAIPEI_METROS.put("松山", "捷運松山站");
         TAIPEI_METROS.put("南京三民", "捷運南京三民站");
         TAIPEI_METROS.put("小巨蛋", "捷運台北小巨蛋站");
+
+        // commons conversation
+        COMMONS.put("穿搭", null);
+
     }
+
 
     @Inject
     private LineService lineService;
     @Inject
-    private SimSimiService simSimiService;
-    @Inject
     private FonFoodCralwerService fonFoodCralwerService;
+    @Inject
+    private WearService wearService;
 
     /**
      * 接收文字事件
@@ -50,7 +59,8 @@ public class MessagingHooksResources {
      * @throws IOException
      */
     @EventMapping
-    public void handleTextMessageEvent(MessageEvent<TextMessageContent> event) throws IOException {
+    public void handleTextMessageEvent(MessageEvent<TextMessageContent> event)
+            throws IOException, URISyntaxException {
         TextMessageContent message = event.getMessage();
         handleTextContent(event.getReplyToken(), event, message);
     }
@@ -102,7 +112,7 @@ public class MessagingHooksResources {
      * @throws IOException
      */
     private void handleTextContent(String replyToken, Event event, TextMessageContent content)
-            throws IOException {
+            throws IOException, URISyntaxException {
         String text = content.getText();
         log.info("Got text message from {}: {}", replyToken, text);
 
@@ -117,6 +127,13 @@ public class MessagingHooksResources {
                 CarouselTemplate carouselTemplate
                         = fonFoodCralwerService.crawlerRestaurantByMetroName(TAIPEI_METROS.get(text));
                 TemplateMessage templateMessage = new TemplateMessage(TAIPEI_METROS.get(text), carouselTemplate);
+                lineService.reply(replyToken, templateMessage);
+            }
+
+            // 穿搭
+            if (COMMONS.containsKey(text)) {
+                ButtonsTemplate buttonsTemplate = wearService.crawlerWearType();
+                TemplateMessage templateMessage = new TemplateMessage("WEAR", buttonsTemplate);
                 lineService.reply(replyToken, templateMessage);
             }
 
