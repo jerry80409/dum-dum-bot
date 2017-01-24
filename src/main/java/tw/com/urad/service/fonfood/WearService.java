@@ -44,6 +44,7 @@ public class WearService {
                 "wear.jp",
                 wearTypes.stream()
                         .map(type -> new PostbackAction(type.text(), type.select("a").attr("href")))
+                        .limit(4)
                         .collect(Collectors.toList())
         );
 
