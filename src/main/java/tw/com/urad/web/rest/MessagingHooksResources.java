@@ -2,6 +2,7 @@ package tw.com.urad.web.rest;
 
 import com.linecorp.bot.model.event.Event;
 import com.linecorp.bot.model.event.MessageEvent;
+import com.linecorp.bot.model.event.PostbackEvent;
 import com.linecorp.bot.model.event.message.LocationMessageContent;
 import com.linecorp.bot.model.event.message.StickerMessageContent;
 import com.linecorp.bot.model.event.message.TextMessageContent;
@@ -76,6 +77,21 @@ public class MessagingHooksResources {
     }
 
     /**
+     * Post-back 事件,
+     * 目前只處理 wear.jp WearType Action
+     *
+     * @param event
+     */
+    @EventMapping
+    public void handlePostbackEvent(PostbackEvent event) {
+        String replyToken = event.getReplyToken();
+        String data = event.getPostbackContent().getData();
+        CarouselTemplate carouselTemplate = wearService.crawlerWearRecommend(data);
+        TemplateMessage templateMessage = new TemplateMessage("WEAR", carouselTemplate);
+        lineService.reply(replyToken, templateMessage);
+    }
+
+    /**
      * 接收定位事件
      *
      * @param event
@@ -132,7 +148,7 @@ public class MessagingHooksResources {
 
             // 穿搭
             if (COMMONS.containsKey(text)) {
-                ButtonsTemplate buttonsTemplate = wearService.crawlerWearType();
+                ButtonsTemplate buttonsTemplate = wearService.crawlerWearTypes();
                 TemplateMessage templateMessage = new TemplateMessage("WEAR", buttonsTemplate);
                 lineService.reply(replyToken, templateMessage);
             }
