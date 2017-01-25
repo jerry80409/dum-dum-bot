@@ -16,7 +16,7 @@ import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
 import lombok.extern.slf4j.Slf4j;
 import tw.com.urad.service.LineService;
 import tw.com.urad.service.fonfood.FonFoodCralwerService;
-import tw.com.urad.service.fonfood.WearService;
+import tw.com.urad.service.wear.WearService;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -33,6 +33,7 @@ import javax.inject.Inject;
 public class MessagingHooksResources {
     private final static HashMap<String, String> TAIPEI_METROS = new HashMap<>();
     private final static HashMap<String, String> COMMONS = new HashMap<>();
+    private final static HashMap<String, String> HOROSCOPE = new HashMap<>();
 
     static {
         // 地鐵資料庫
@@ -43,6 +44,19 @@ public class MessagingHooksResources {
         // commons conversation
         COMMONS.put("穿搭", null);
 
+        // Susan Miller. HOROSCOPE
+        HOROSCOPE.put("摩羯", "Capricorn");
+        HOROSCOPE.put("水瓶", "Aquarius");
+        HOROSCOPE.put("雙魚", "Pisces");
+        HOROSCOPE.put("白羊", "Aries");
+        HOROSCOPE.put("金牛", "Taurus");
+        HOROSCOPE.put("雙子", "Gemini");
+        HOROSCOPE.put("巨蟹", "Cancer");
+        HOROSCOPE.put("獅子", "Leo");
+        HOROSCOPE.put("處女", "Virgo");
+        HOROSCOPE.put("天秤", "Libra");
+        HOROSCOPE.put("天蠍", "Scorpio");
+        HOROSCOPE.put("射手", "Sagittarius");
     }
 
 

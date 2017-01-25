@@ -1,4 +1,4 @@
-package tw.com.urad.service.fonfood;
+package tw.com.urad.service.wear;
 
 import com.github.abola.crawler.CrawlerPack;
 import com.linecorp.bot.model.action.PostbackAction;
@@ -7,7 +7,6 @@ import com.linecorp.bot.model.message.template.ButtonsTemplate;
 import com.linecorp.bot.model.message.template.CarouselColumn;
 import com.linecorp.bot.model.message.template.CarouselTemplate;
 import org.apache.commons.logging.impl.SimpleLog;
-import org.joda.time.DateTime;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
@@ -15,7 +14,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URISyntaxException;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,7 +24,6 @@ import java.util.stream.Collectors;
 public class WearService {
     private static final String DEFAULT_USER_AGENT
             = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.95 Safari/537.36";
-    private static final Date COOKIE_EXPRESS = new DateTime().plusDays(1).toDate();
     private final String WEAR_URI = "http://wear.jp";
 
     /**
@@ -61,7 +58,7 @@ public class WearService {
                     }
                 }).limit(3)
                 .collect(Collectors.toList());
-        
+
         return new CarouselTemplate(carouselColumns);
     }
 
