@@ -30,6 +30,7 @@ public class SimSimiServiceBuilder {
     public static final long DEFAULT_WRITE_TIMEOUT = 10_000;
 
     private String apiEndPoint = DEFAULT_API_END_POINT;
+
     private long connectTimeout = DEFAULT_CONNECT_TIMEOUT;
     private long readTimeout = DEFAULT_READ_TIMEOUT;
     private long writeTimeout = DEFAULT_WRITE_TIMEOUT;
@@ -46,11 +47,11 @@ public class SimSimiServiceBuilder {
     /**
      * Create a new {@link SimSimiServiceBuilder}
      */
-    public static SimSimiServiceBuilder create() {
-        return new SimSimiServiceBuilder(defaultInterceptors());
+    public static SimSimiServiceBuilder create(String token) {
+        return new SimSimiServiceBuilder(defaultInterceptors(token));
     }
 
-    private static List<Interceptor> defaultInterceptors() {
+    private static List<Interceptor> defaultInterceptors(String token) {
         final Logger slf4jLogger = LoggerFactory.getLogger("tw.com.dum");
         final HttpLoggingInterceptor httpLoggingInterceptor =
                 new HttpLoggingInterceptor(message -> slf4jLogger.info("{}", message));
@@ -58,7 +59,7 @@ public class SimSimiServiceBuilder {
 
         return Arrays.asList(
                 new HeaderInterceptor(),
-                new DefaultQueryInterceptor(),
+                new DefaultQueryInterceptor(token),
                 httpLoggingInterceptor
         );
     }

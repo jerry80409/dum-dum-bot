@@ -24,13 +24,8 @@ line:
             enabled: true
             path: /callback
 
-# Simsimi Chat 設定 ToDo
+# Simsimi Chat 設定
 simsimi:
-    token: token
-
-
-
-
-
-
-
+    api:
+        token: simsimi-key
+        url: http://sandbox.api.simsimi.com
