@@ -17,8 +17,12 @@ You should setting [heroku config variables](https://devcenter.heroku.com/articl
 ```
 heroku config:set LINE_BOT_CHANNEL_TOKEN=line-channel-token
 heroku config:set LINE_BOT_CHANNEL_SECRET=line-channel-secret
+heroku config:set SIMSIMI_KEY=simsimi-key
 ```
 
 ## ToDo
-1. 輸入捷運站, 隨機推薦 3 筆, 餐廳。
-2. 酒單查詢。
+1. SimSimi 聊天
+2. 輸入捷運站, 隨機推薦 3 筆, 餐廳。
+3. wear 建議
+4. 星座
+
