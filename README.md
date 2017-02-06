@@ -20,7 +20,7 @@ heroku config:set LINE_BOT_CHANNEL_SECRET=line-channel-secret
 heroku config:set SIMSIMI_KEY=simsimi-key
 ```
 ## License
-This project is licensed under the terms of the MIT license.
+[This project is licensed under the terms of the Apache2.0 license.](https://github.com/line/line-bot-sdk-java/blob/master/LICENSE.txt)
 
 ## ToDo
 1. SimSimi 聊天
