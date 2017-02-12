@@ -15,7 +15,7 @@ import javax.inject.Inject;
 public class FonFoodCralwerServiceTest {
 
     @Inject
-    private FonFoodCralwerService fonFoodCralwerService;
+    private FonFoodCrawlerService fonFoodCralwerService;
 
     // TODO: 2017/1/20  assert test
     @Test

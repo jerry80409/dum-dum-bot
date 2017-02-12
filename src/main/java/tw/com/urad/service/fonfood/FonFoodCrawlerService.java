@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
  * Created by jerry on 2017/1/20.
  */
 @Service
-public class FonFoodCralwerService {
+public class FonFoodCrawlerService {
 
     private static final String DEFAULT_USER_AGENT
             = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.95 Safari/537.36";
