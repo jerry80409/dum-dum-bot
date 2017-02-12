@@ -15,7 +15,7 @@ import com.linecorp.bot.spring.boot.annotation.EventMapping;
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
 import lombok.extern.slf4j.Slf4j;
 import tw.com.urad.service.LineService;
-import tw.com.urad.service.fonfood.FonFoodCralwerService;
+import tw.com.urad.service.fonfood.FonFoodCrawlerService;
 import tw.com.urad.service.wear.WearService;
 
 import java.io.IOException;
@@ -63,7 +63,7 @@ public class MessagingHooksResources {
     @Inject
     private LineService lineService;
     @Inject
-    private FonFoodCralwerService fonFoodCralwerService;
+    private FonFoodCrawlerService fonFoodCralwerService;
     @Inject
     private WearService wearService;
 
